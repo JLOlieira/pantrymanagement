@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Pantry Organizer</h1>
+
+    <div>
+        <h2>Adicionar Item</h2>
+        <form id="addItemForm">
+            <input type="text" id="itemName" placeholder="Nome do item" required>
+            <input type="number" id="itemQuantity" placeholder="Quantidade" required>
+            <select name="itemUnit" id="itemUnit">
+                <option value="kg">kg</option>
+                <option value="g">g</option>
+                <option value="l">l</option>
+                <option value="ml">ml</option>
+                <option value="un">un</option>
+            </select>
+            <button type="submit">Adicionar</button>
+        </form>
+    </div>
+    <div>
+        <h2>Itens na Despensa</h2>
+        <ul id="pantryList">
+            <li>
+                <span>Arroz <span>10</span></span>
+                <button class="editBtn">Editar</button>
+                <button class="deleteBtn">Excluir</button>
+            </li>
+        </ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
