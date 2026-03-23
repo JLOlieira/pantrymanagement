@@ -1,0 +1,19 @@
+.App{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .pantry{
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+    }
+
+    .product{
+        display: flex;
+        list-style: none;
+        align-items: center;
+        gap: 1rem;
+    }
+}
