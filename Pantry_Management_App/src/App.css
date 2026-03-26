@@ -1,19 +1,64 @@
 .App{
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 420px;
+    height: calc(100vh - 3rem);
+    margin: 0 auto;
+    background-color: #f6f6f6;
+    border-radius: 10px;
+    padding: 1rem;
 
     .pantry{
         display: flex;
         flex-direction: column;
         position: relative;
         width: 100%;
-    }
 
-    .product{
-        display: flex;
-        list-style: none;
-        align-items: center;
-        gap: 1rem;
+        .pantry_header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+
+            h2{
+                margin: 0;
+            }
+        }
+
+        .room_filters{
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+
+            button{
+                padding: 0.5rem;
+                border: none;
+                border-radius: 5px;
+                background-color: transparent;
+                color: #555;
+                cursor: pointer;
+
+                &:hover{
+                    background-color: #e9e9e9;
+                }
+            }
+
+            .active{
+                color: white;
+                background-color: #0056b3;
+
+                &:hover{
+                    background-color: #0056b3;
+                }
+            }
+        }
+
+        .product_list{
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    
     }
 }
