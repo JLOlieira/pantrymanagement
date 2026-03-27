@@ -3,12 +3,13 @@ import React from "react";
 import { useState } from "react";
 import Product from "./assets/components/product/product";
 import ItemModal from "./assets/components/item-modal/item_modal";
+import ShopCart from "./assets/pages/shop-cart/shop-cart";
+import Footer from "./assets/components/footer/footer";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
-
-  // Estado para controlar a aba ativa
   const [activeTab, setActiveTab] = useState("all");
+  const [activeSection, setActiveSection] = useState("pantry");
 
   // Função para destacar a aba ativa
   const handleTabClick = (tab) => {
@@ -25,7 +26,7 @@ function App() {
 
   return (
     <div className="App">
-      <section className="pantry">
+      <section className="pantry" value="pantry">
         <div className="pantry_header">
           <h2>Itens da despensa</h2>
           <button onClick={() => setShowModal(true)}>Adicionar item</button>
@@ -59,9 +60,14 @@ function App() {
             </button>
           </li>
         </ul>
+
         <ul className="product_list">
           {JSON.parse(localStorage.getItem("pantryItems") || "[]")
-            .filter((item) => activeTab === "all" || item.local === activeTab)
+            .filter(
+              (item) =>
+                activeTab === "all" &&
+                (item.quantidade != "0" || item.local === activeTab),
+            )
             .map((item, index) => (
               <li key={index}>
                 <Product
@@ -75,7 +81,16 @@ function App() {
             ))}
         </ul>
       </section>
+      <section
+        className="shop_cart"
+        value="shop-cart"
+        style={{ display: activeSection === "shop-cart" ? "block" : "none" }}
+      >
+        <h2>Lista de compras</h2>
+        <ShopCart />
+      </section>
       {showModal && <ItemModal onClose={() => setShowModal(false)} />}
+      <Footer />
     </div>
   );
 }

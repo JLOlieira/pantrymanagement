@@ -42,13 +42,33 @@ export default function ProductEditModal({ onClose, product }) {
           required
         />
         <label htmlFor="quantity">Quantidade:</label>
-        <input
-          type="number"
-          id="quantity"
-          name="quantity"
-          defaultValue={product.quantity}
-          required
-        />
+        <div className="quantity-input">
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            defaultValue={product.quantity}
+            required
+          />
+          <button
+            type="button"
+            onClick={() => {
+              const quantityInput = document.getElementById("quantity");
+              quantityInput.value = parseInt(quantityInput.value) - 1;
+            }}
+          >
+            -
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              const quantityInput = document.getElementById("quantity");
+              quantityInput.value = parseInt(quantityInput.value) + 1;
+            }}
+          >
+            +
+          </button>
+        </div>
         <label htmlFor="unit">Unidade:</label>
         <select name="unit" id="unit" defaultValue={product.unit} required>
           <option value="">Selecione unidade</option>

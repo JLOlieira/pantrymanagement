@@ -3,7 +3,8 @@ import React from "react";
 import { useState } from "react";
 
 export default function ItemModal({ onClose }) {
-  // Salva o item no local storage
+
+  // Se já existe o item, soma a quantidade ao invés de criar um novo item
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -14,14 +15,24 @@ export default function ItemModal({ onClose }) {
       categoria: formData.get("category"),
       local: formData.get("room"),
     };
-    console.log("New Item:", newItem);
-    localStorage.setItem(
-      "pantryItems",
-      JSON.stringify([
-        ...JSON.parse(localStorage.getItem("pantryItems") || "[]"),
-        newItem,
-      ]),
+    const existingItems = JSON.parse(localStorage.getItem("pantryItems") || "[]");
+    const existingItemIndex = existingItems.findIndex(
+      (item) => item.nome === newItem.nome && item.local === newItem.local
     );
+    if (existingItemIndex !== -1) {
+      existingItems[existingItemIndex].quantidade = (
+        parseInt(existingItems[existingItemIndex].quantidade) + parseInt(newItem.quantidade)
+      ).toString();
+      localStorage.setItem("pantryItems", JSON.stringify(existingItems));
+    } else {
+      localStorage.setItem(
+        "pantryItems",
+        JSON.stringify([
+          ...existingItems,
+          newItem,
+        ]),
+      );
+    }
     onClose();
   };
 
@@ -32,7 +43,33 @@ export default function ItemModal({ onClose }) {
         <label htmlFor="name">Nome:</label>
         <input type="text" id="name" name="name" required />
         <label htmlFor="quantity">Quantidade:</label>
-        <input type="number" id="quantity" name="quantity" required />
+        <div className="quantity-input">
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            defaultValue={0}
+            required
+          />
+          <button
+            type="button"
+            onClick={() => {
+              const quantityInput = document.getElementById("quantity");
+              quantityInput.value = parseInt(quantityInput.value) - 1;
+            }}
+          >
+            -
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              const quantityInput = document.getElementById("quantity");
+              quantityInput.value = parseInt(quantityInput.value) + 1;
+            }}
+          >
+            +
+          </button>
+        </div>
         <label htmlFor="unit">Unidade:</label>
         <select name="unit" id="unit" required>
           <option value="">Selecione unidade</option>

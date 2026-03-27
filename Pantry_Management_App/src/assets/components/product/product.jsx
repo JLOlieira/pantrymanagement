@@ -11,9 +11,9 @@ export default function Product({ name, quantity, unit, category, room }) {
     const updatedItems = pantryItems.filter(
       (item) =>
         !(
-          item.name === name &&
-          item.quantity === quantity &&
-          item.unit === unit
+          item.nome === name &&
+          item.quantidade === quantity &&
+          item.unidade === unit
         ),
     );
     localStorage.setItem("pantryItems", JSON.stringify(updatedItems));
@@ -59,6 +59,13 @@ export default function Product({ name, quantity, unit, category, room }) {
       >
         Opções
       </button>
+
+      {quantity === "0" && (
+        <div>
+          <button>excluir da lista</button>
+        </div>
+      )}
+
       {showOptions && (
         <div className="options_menu">
           <button onClick={handleEdit}>Editar</button>
