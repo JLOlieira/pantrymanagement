@@ -28,38 +28,58 @@ function App() {
     <div className="App">
       <section className="pantry" value="pantry">
         <div className="pantry_header">
-          <h2>Itens da despensa</h2>
-          <button onClick={() => setShowModal(true)}>Adicionar item</button>
+          <h2>Despensa</h2>
         </div>
-        <ul className="room_filters">
-          <li>
-            <button
-              value="all"
-              className="active"
-              onClick={() => handleTabClick("all")}
-            >
-              Todos
-            </button>
-          </li>
-          <li>
-            <button
-              value="Geladeira"
-              onClick={() => handleTabClick("Geladeira")}
-            >
-              Geladeira
-            </button>
-          </li>
-          <li>
-            <button value="Freezer" onClick={() => handleTabClick("Freezer")}>
-              Freezer
-            </button>
-          </li>
-          <li>
-            <button value="Despensa" onClick={() => handleTabClick("Despensa")}>
-              Despensa
-            </button>
-          </li>
-        </ul>
+        <div className="pantry_controls">
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Buscar itens..."
+          />
+          <ul className="room_filters">
+            <li>
+              <button
+                value="all"
+                className="active"
+                onClick={() => handleTabClick("all")}
+              >
+                Todos
+              </button>
+            </li>
+            <li>
+              <button
+                value="Geladeira"
+                onClick={() => handleTabClick("Geladeira")}
+              >
+                Geladeira
+              </button>
+            </li>
+            <li>
+              <button value="Freezer" onClick={() => handleTabClick("Freezer")}>
+                Freezer
+              </button>
+            </li>
+            <li>
+              <button
+                value="Despensa"
+                onClick={() => handleTabClick("Despensa")}
+              >
+                Despensa
+              </button>
+            </li>
+            <li>
+              <button
+                value="Despensa"
+                onClick={() => handleTabClick("Despensa")}
+              >
+                Despensa
+              </button>
+            </li>
+          </ul>
+        </div>
+        <button className="newItem_btn" onClick={() => setShowModal(true)}>
+          +
+        </button>
 
         <ul className="product_list">
           {JSON.parse(localStorage.getItem("pantryItems") || "[]")
@@ -86,7 +106,12 @@ function App() {
         value="shop-cart"
         style={{ display: activeSection === "shop-cart" ? "block" : "none" }}
       >
-        <h2>Lista de compras</h2>
+        <div>
+          <h2>Lista de compras</h2>
+        </div>
+        <button className="newItem_btn" onClick={() => setShowModal(true)}>
+          +
+        </button>
         <ShopCart />
       </section>
       {showModal && <ItemModal onClose={() => setShowModal(false)} />}

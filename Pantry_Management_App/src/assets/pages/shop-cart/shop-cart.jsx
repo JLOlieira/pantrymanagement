@@ -1,8 +1,31 @@
+import { useState } from "react";
 import "./shop-cart.css";
 import Product from "../../components/product/product";
+import ItemModal from "../../components/item-modal/item_modal";
 
 export default function ShopCart() {
   const pantryItems = JSON.parse(localStorage.getItem("pantryItems") || "[]");
+
+  const [showModal, setShowModal] = useState(false);
+
+  // Abre o modal para adicionar itens à despensa e carrega os inputs com os dados do item selecionado
+  const handleAddToPantry = (item) => {
+    setShowModal(true);
+    setTimeout(() => {
+      document.getElementById("name").value = item.nome;
+      document.getElementById("quantity").value = item.quantidade;
+      document.getElementById("unit").value = item.unidade;
+      document.getElementById("category").value = item.categoria;
+      document.getElementById("room").value = item.local;
+    }, 100);
+  };
+  const handleDeleteFromShopCart = (item) => {
+    const updatedItems = pantryItems.filter(
+      (pantryItem) =>
+        pantryItem.nome !== item.nome || pantryItem.local !== item.local,
+    );
+    localStorage.setItem("pantryItems", JSON.stringify(updatedItems));
+  };
 
   return (
     // Exibe itens com quantidade 0
@@ -14,12 +37,17 @@ export default function ShopCart() {
             <li key={index} className="shop_cart_item">
               <h3>{item.nome}</h3>
               <div>
-                <button>Add a despensa</button>
-                <button>Excluir da lista</button>
+                <button onClick={() => handleAddToPantry(item)}>
+                  Add a despensa
+                </button>
+                <button onClick={() => handleDeleteFromShopCart(item)}>
+                  Excluir da lista
+                </button>
               </div>
             </li>
           ))}
       </ul>
+      {showModal && <ItemModal onClose={() => setShowModal(false)} />}
     </div>
   );
 }

@@ -29,10 +29,12 @@ export default function Footer() {
         className="active"
         onClick={() => handleTabClick("pantry")}
       >
-        Despensa
+        <i class="fa-solid fa-box-archive"></i>
+        <p>Despensa</p>
       </button>
       <button value="shop-cart" onClick={() => handleTabClick("shop-cart")}>
-        Lista de Compras
+        <i class="fa-solid fa-shopping-cart"></i>
+        <p>Lista de compra</p>
       </button>
     </footer>
   );

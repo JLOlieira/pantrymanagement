@@ -1,65 +1,73 @@
-.product{
+.product {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     position: relative;
     width: auto;
     height: auto;
-    padding: 0.5rem;
-    border: solid 1px #ddd;
-    border-radius: 5px;
+    padding: 1rem;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
 
-    .product_info{
+    .product_info {
         display: flex;
         flex-direction: column;
         margin: 0;
-        
-        div{
+        gap: 0.5rem;
+
+        div {
             display: flex;
             align-items: center;
             gap: 0.5rem;
 
-            h3, p{
+            .name-txt {
+                color: #555;
+                font-size: 1.5rem;
+                font-weight: bold;
+                text-transform: initial;
+            }
+
+            .category-txt {
+                background-color: #eaeaea;
+                padding: 0.2rem 0.4rem;
+                border-radius: 10px;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+
+            h3,
+            p {
                 margin: 0;
             }
-            p{
+
+            p {
                 font-size: 0.8rem;
-                color: #555;
+                font-weight: 600;
+                color: #a7a7a7;
             }
         }
     }
 
-    .options_btn{
+    .options_menu {
         display: flex;
-        position: relative;
         gap: 0.5rem;
-        padding: 0.3rem;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-    }
-    .options_menu{
-        display: flex;
-        position: absolute;
-        top: 0;
-        right: 0;
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 0.5rem;
-        background-color: white;
-        border: solid 1px #ddd;
-        border-radius: 5px;
-        z-index: 10;
 
-        button{
-            padding: 0.3rem;
+        button {
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
             border: none;
-            background-color: transparent;
+            background-color: #eaeaea;
             cursor: pointer;
+        }
 
-            &:hover{
-                background-color: #f6f6f6;
-            }
+        .edit-btn {
+            color: #116829;
+        }
+
+        .delete-btn {
+            color: #b00020;
         }
     }
 }

@@ -4,7 +4,6 @@ import "./product.css";
 import ProductEditModal from "./product_edit_modal";
 
 export default function Product({ name, quantity, unit, category, room }) {
-  const [showOptions, setShowOptions] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const deleteItem = () => {
     const pantryItems = JSON.parse(localStorage.getItem("pantryItems") || "[]");
@@ -22,19 +21,6 @@ export default function Product({ name, quantity, unit, category, room }) {
     window.location.reload();
   };
 
-  // fecha o menu de opções ao clicar fora
-  const handleClickOutside = (e) => {
-    if (!e.target.closest(".options_btn")) {
-      setShowOptions(false);
-    }
-  };
-  React.useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
   const handleEdit = () => {
     setShowEditModal(true);
   };
@@ -43,22 +29,15 @@ export default function Product({ name, quantity, unit, category, room }) {
     <div className="product">
       <div className="product_info">
         <div>
-          <h3>{name}</h3>
-          <p>
-            {quantity} {unit}
-          </p>
+          <h3 className="name-txt">{name}</h3>
         </div>
         <div>
-          <p>{category}</p>
-          <p>{room}</p>
+          <p className="category-txt">{category}</p>
+          <p>
+            Quantidade: {quantity} {unit}
+          </p>
         </div>
       </div>
-      <button
-        className="options_btn"
-        onClick={() => setShowOptions(!showOptions)}
-      >
-        Opções
-      </button>
 
       {quantity === "0" && (
         <div>
@@ -66,12 +45,14 @@ export default function Product({ name, quantity, unit, category, room }) {
         </div>
       )}
 
-      {showOptions && (
-        <div className="options_menu">
-          <button onClick={handleEdit}>Editar</button>
-          <button onClick={deleteItem}>Excluir</button>
-        </div>
-      )}
+      <div className="options_menu">
+        <button className="edit-btn" onClick={handleEdit}>
+          <i class="fa-solid fa-pen"></i>
+        </button>
+        <button className="delete-btn" onClick={deleteItem}>
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
       {showEditModal && (
         <ProductEditModal
           onClose={() => setShowEditModal(false)}
