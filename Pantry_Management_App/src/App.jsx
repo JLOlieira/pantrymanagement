@@ -24,6 +24,36 @@ function App() {
       .classList.add("active");
   };
 
+  // Adiciona o item diitado no input à lista de compras
+  const handleAddToShopCart = () => {
+    const itemName = document.querySelector(".shop_cart_controls input").value;
+    if (itemName.trim() === "") return;
+    const pantryItems = JSON.parse(localStorage.getItem("pantryItems") || "[]");
+    const existingItemIndex = pantryItems.findIndex(
+      (item) => item.nome.toLowerCase() === itemName.toLowerCase(),
+    );
+    if (existingItemIndex !== -1) {
+      pantryItems[existingItemIndex].quantidade = "0";
+      localStorage.setItem("pantryItems", JSON.stringify(pantryItems));
+    } else {
+      localStorage.setItem(
+        "pantryItems",
+        JSON.stringify([
+          ...pantryItems,
+          {
+            nome: itemName,
+            quantidade: "0",
+            unidade: "",
+            categoria: "",
+            local: "",
+          },
+        ]),
+      );
+    }
+    document.querySelector(".shop_cart_controls input").value = "";
+    window.location.reload();
+  };
+
   return (
     <div className="App">
       <section className="pantry" value="pantry">
@@ -109,9 +139,10 @@ function App() {
         <div>
           <h2>Lista de compras</h2>
         </div>
-        <button className="newItem_btn" onClick={() => setShowModal(true)}>
-          +
-        </button>
+        <div className="shop_cart_controls">
+          <input type="text" placeholder="Adicionar item..." />
+          <button onClick={handleAddToShopCart}>+</button>
+        </div>
         <ShopCart />
       </section>
       {showModal && <ItemModal onClose={() => setShowModal(false)} />}

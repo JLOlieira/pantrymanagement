@@ -36,12 +36,18 @@ export default function ShopCart() {
           .map((item, index) => (
             <li key={index} className="shop_cart_item">
               <h3>{item.nome}</h3>
-              <div>
-                <button onClick={() => handleAddToPantry(item)}>
-                  Add a despensa
+              <div className="shop_cart_item_controls">
+                <button
+                  className="addToPantry"
+                  onClick={() => handleAddToPantry(item)}
+                >
+                  <i class="fa-solid fa-box-archive"></i>
                 </button>
-                <button onClick={() => handleDeleteFromShopCart(item)}>
-                  Excluir da lista
+                <button
+                  className="deleteFromShopCart"
+                  onClick={() => handleDeleteFromShopCart(item)}
+                >
+                  <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
             </li>
