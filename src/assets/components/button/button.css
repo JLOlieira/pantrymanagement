@@ -15,9 +15,11 @@ button {
   &:hover {
     background-color: var(--light-gray);
   }
+
   &.add-item-btn {
     background-color: var(--green);
     color: var(--white);
+
     &:hover {
       background-color: var(--dark-green);
     }
@@ -31,5 +33,14 @@ button {
       background-color: var(--light-red);
     }
   }
-  
+
+  &.edit-btn {
+    background-color: transparent;
+    color: var(--blue);
+
+    &:hover {
+      background-color: var(--light-blue);
+    }
+
+  }
 }

@@ -45,12 +45,18 @@
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
+            gap: 0.5rem;
             margin-bottom: 1rem;
+            color: var(--black);
+
+            i {
+                color: var(--green);
+            }
 
             h2 {
                 margin: 0;
-                color: var(--black);
+                font-size: 1rem;
             }
         }
 

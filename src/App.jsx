@@ -4,6 +4,7 @@ import { useState } from "react";
 import Product from "./assets/components/product/product";
 import ItemModal from "./assets/components/item-modal/item_modal";
 import ShopCart from "./assets/pages/shop-cart/shop-cart";
+import Header from "./assets/components/header/header";
 import Footer from "./assets/components/footer/footer";
 
 function App() {
@@ -11,20 +12,16 @@ function App() {
   const [activeTab, setActiveTab] = useState("all");
   const [activeSection, setActiveSection] = useState("pantry");
 
-  // Função para destacar a aba ativa
   const handleTabClick = (tab) => {
     setActiveTab(tab);
-    // Remove a classe "active" de todas as abas
     document.querySelectorAll(".room_filters button").forEach((btn) => {
       btn.classList.remove("active");
     });
-    // Adiciona a classe "active" à aba clicada
     document
       .querySelector(`.room_filters button[value="${tab}"]`)
       .classList.add("active");
   };
 
-  // Adiciona o item diitado no input à lista de compras
   const handleAddToShopCart = () => {
     const itemName = document.querySelector(".shop_cart_controls input").value;
     if (itemName.trim() === "") return;
@@ -56,9 +53,11 @@ function App() {
 
   return (
     <div className="App">
+      <Header />
       <section className="pantry" value="pantry">
         <div className="pantry_header">
-          <h2>Despensa</h2>
+          <i class="fa-solid fa-user-group"></i>
+          <h2>Grupo Oliveira</h2>
         </div>
         <div className="pantry_controls">
           <input
