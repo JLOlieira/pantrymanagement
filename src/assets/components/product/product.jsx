@@ -3,26 +3,27 @@ import { useState } from "react";
 import "./product.css";
 import ProductEditModal from "./product_edit_modal";
 
-export default function Product({ name, quantity, unit, category, room }) {
+import { deleteItem } from "../../../api";
+
+export default function Product({ name, quantity, unit, category, room, id }) {
   const [showEditModal, setShowEditModal] = useState(false);
-  const deleteItem = () => {
-    const pantryItems = JSON.parse(localStorage.getItem("pantryItems") || "[]");
-    const updatedItems = pantryItems.filter(
-      (item) =>
-        !(
-          item.nome === name &&
-          item.quantidade === quantity &&
-          item.unidade === unit
-        ),
-    );
-    localStorage.setItem("pantryItems", JSON.stringify(updatedItems));
-    // Força o componente a re-renderizar
-    setShowOptions(false);
-    window.location.reload();
-  };
 
   const handleEdit = () => {
     setShowEditModal(true);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const deleted = await deleteItem({ id });
+      console.log("Item excluído com sucesso:", deleted);
+    } catch (error) {
+      console.error("Erro ao excluir item:", error);
+      console.log(id);
+      alert(
+        "Erro no servidor ao excluir item. Veja o console para detalhes.",
+      );
+    }
+    window.location.reload();
   };
 
   return (
@@ -49,14 +50,14 @@ export default function Product({ name, quantity, unit, category, room }) {
         <button className="edit-btn" onClick={handleEdit}>
           <i class="fa-solid fa-pen"></i>
         </button>
-        <button className="delete-btn" onClick={deleteItem}>
+        <button className="delete-btn" onClick={handleDelete}>
           <i class="fa-solid fa-trash"></i>
         </button>
       </div>
       {showEditModal && (
         <ProductEditModal
           onClose={() => setShowEditModal(false)}
-          product={{ name, quantity, unit, category, room }}
+          product={{ name, quantity, unit, category, room, id }}
         />
       )}
     </div>

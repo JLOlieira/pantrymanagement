@@ -3,10 +3,10 @@ import React from "react";
 import { useState } from "react";
 
 export default function Footer() {
-  const [activeTab, setActiveTab] = useState("pantry");
+  const [_activeTab, _setActiveTab] = useState("pantry");
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
+    _setActiveTab(tab);
     // Remove a classe "active" de todas as abas
     document.querySelectorAll("footer button").forEach((btn) => {
       btn.classList.remove("active");
@@ -19,7 +19,7 @@ export default function Footer() {
     document.querySelectorAll("section").forEach((section) => {
       section.style.display = "none";
     });
-    document.querySelector(`section[value="${tab}"]`).style.display = "block";
+    document.querySelector(`section[value="${tab}"]`).style.display = "flex";
   };
 
   return (

@@ -38,7 +38,7 @@
         height: calc(100vh - 3rem);
         background-color: var(--white);
         border-right: 1px solid var(--gray);
-        z-index: 10;
+        z-index: 500;
 
         .user-infos {
             display: flex;

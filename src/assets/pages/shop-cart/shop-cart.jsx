@@ -1,59 +1,94 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./shop-cart.css";
-import Product from "../../components/product/product";
-import ItemModal from "../../components/item-modal/item_modal";
+import ProductEditModal from "../../components/product/product_edit_modal";
+
+import { getItems, deleteItem } from "../../../api";
 
 export default function ShopCart() {
-  const pantryItems = JSON.parse(localStorage.getItem("pantryItems") || "[]");
+  const [shopCartItems, setShopCartItems] = useState([]);
+  const [showEditModal, setShowEditModal] = useState(false);
 
-  const [showModal, setShowModal] = useState(false);
+  const [item, setItem] = useState({});
 
-  // Abre o modal para adicionar itens à despensa e carrega os inputs com os dados do item selecionado
-  const handleAddToPantry = (item) => {
-    setShowModal(true);
-    setTimeout(() => {
-      document.getElementById("name").value = item.nome;
-      document.getElementById("quantity").value = item.quantidade;
-      document.getElementById("unit").value = item.unidade;
-      document.getElementById("category").value = item.categoria;
-      document.getElementById("room").value = item.local;
-    }, 100);
+  useEffect(() => {
+    const fetchItems = async () => {
+      const items = await getItems();
+      // Filtrar itens com quantidade 0 (lista de compras)
+      const filteredItems = Array.isArray(items)
+        ? items.filter((item) => item.quantity === "0" || item.quantity === 0)
+        : [];
+      setShopCartItems(filteredItems);
+    };
+    fetchItems();
+
+    // Ouvir evento de item adicionado à lista de compras
+    const handleItemAdded = () => {
+      fetchItems();
+    };
+    window.addEventListener("itemAddedToShopCart", handleItemAdded);
+
+    return () => {
+      window.removeEventListener("itemAddedToShopCart", handleItemAdded);
+    };
+  }, []);
+
+  // Função para atualizar a lista de compras
+  const refreshShopCart = async () => {
+    const items = await getItems();
+    const filteredItems = Array.isArray(items)
+      ? items.filter((item) => item.quantity === "0" || item.quantity === 0)
+      : [];
+    setShopCartItems(filteredItems);
   };
-  const handleDeleteFromShopCart = (item) => {
-    const updatedItems = pantryItems.filter(
-      (pantryItem) =>
-        pantryItem.nome !== item.nome || pantryItem.local !== item.local,
-    );
-    localStorage.setItem("pantryItems", JSON.stringify(updatedItems));
+
+  // Abre o modal de edição do item
+  const handleEdit = (item) => {
+    setShowEditModal(true);
+    setItem(item);
+  };
+
+  const handleDeleteFromShopCart = async (item) => {
+    try {
+      await deleteItem(item);
+      // Remove o item da lista de compras apenas se a deleção foi bem-sucedida
+      setShopCartItems((prev) =>
+        prev.filter((i) => (i._id || i.id) !== (item._id || item.id)),
+      );
+      console.log("Item excluído com sucesso:", item);
+    } catch (error) {
+      console.error("Erro ao excluir item:", error);
+      alert("Erro ao excluir item. Veja o console para detalhes.");
+    }
   };
 
   return (
     // Exibe itens com quantidade 0
-    <div>
+    <div className="shop_cart_container">
       <ul className="shop_cart_list">
-        {pantryItems
-          .filter((item) => item.quantidade === "0")
-          .map((item, index) => (
-            <li key={index} className="shop_cart_item">
-              <h3>{item.nome}</h3>
-              <div className="shop_cart_item_controls">
-                <button
-                  className="addToPantry"
-                  onClick={() => handleAddToPantry(item)}
-                >
-                  <i class="fa-solid fa-box-archive"></i>
-                </button>
-                <button
-                  className="deleteFromShopCart"
-                  onClick={() => handleDeleteFromShopCart(item)}
-                >
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            </li>
-          ))}
+        {shopCartItems.map((item, index) => (
+          <li key={item.id || index} className="shop_cart_item">
+            <h3>{item.name || item.nome}</h3>
+            <div className="shop_cart_item_controls">
+              <button className="addToPantry" onClick={() => handleEdit(item)}>
+                <i className="fa-solid fa-box-archive"></i>
+              </button>
+              <button
+                className="deleteFromShopCart"
+                onClick={() => handleDeleteFromShopCart(item)}
+              >
+                <i className="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </li>
+        ))}
       </ul>
-      {showModal && <ItemModal onClose={() => setShowModal(false)} />}
+      {showEditModal && (
+        <ProductEditModal
+          onClose={() => setShowEditModal(false)}
+          product={item}
+          onUpdated={refreshShopCart}
+        />
+      )}
     </div>
   );
 }

@@ -1,197 +1,211 @@
 @import url("colors.css");
 
 .App {
-    position: relative;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+  height: calc(100vh - 3rem);
+  margin: 0 auto;
+  background-color: var(--light-gray);
+  border-radius: 10px;
+
+  .newItem_btn {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--green);
+    color: var(--white);
+    cursor: pointer;
+    z-index: 100;
+
+    &:hover {
+      background-color: var(--dark-green);
+      color: var(--white);
+    }
+  }
+
+  .pantry {
     display: flex;
     flex-direction: column;
-    width: 420px;
-    height: calc(100vh - 3rem);
-    margin: 0 auto;
-    background-color: var(--light-gray);
-    border-radius: 10px;
+    position: relative;
+    padding: 1rem;
+    padding-bottom: 0;
+    flex: 1;
+    overflow: hidden;
 
-    .newItem_btn {
-        position: absolute;
-        right: 1rem;
-        bottom: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 4rem;
-        height: 4rem;
-        font-size: 1.5rem;
+    .pantry_header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.5rem;
+      color: var(--black);
+
+      i {
+        color: var(--green);
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 1rem;
+      }
+    }
+
+    .pantry_controls {
+      display: flex;
+      flex-direction: column;
+      margin: 0.5rem 0;
+
+      .search-input {
+        width: auto;
+        padding: 1.2rem;
         border: none;
-        border-radius: 50%;
+        border-radius: 20px;
+        background-color: var(--gray);
+        font-size: 1rem;
+        border: solid 1px transparent;
+        margin: 1rem 0;
+
+        &::placeholder {
+          color: var(--dark-gray);
+        }
+
+        &:focus {
+          outline: none;
+          border: solid 1px var(--green);
+        }
+      }
+    }
+
+    .room_filters {
+      display: flex;
+      gap: 0.5rem;
+      width: 100%;
+      overflow: hidden;
+      overflow-x: auto;
+
+      button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 50px;
+        background-color: var(--light-green);
+        color: var(--green);
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+
+        &:hover {
+          color: var(--white);
+          background-color: var(--green);
+        }
+      }
+
+      .active {
+        color: white;
+        background-color: var(--green);
+
+        &:hover {
+          background-color: var(--green);
+        }
+      }
+    }
+
+    .product_list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+      flex: 1;
+      min-height: 0; /* Permite shrink */
+      margin: 0;
+    }
+  }
+
+  .shop_cart {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 2rem 1rem;
+    padding-bottom: 0;
+    overflow-x: hidden;
+    min-height: 0; /* Permite shrink */
+    
+    .shop_cart_container {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--black);
+    }
+
+    .shop_cart_controls {
+      position: relative;
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+
+      input {
+        flex: 1;
+        padding: 1.2rem;
+        border: none;
+        border-radius: 20px;
+        background-color: var(--gray);
+        font-size: 1rem;
+        border: solid 1px transparent;
+
+        &::placeholder {
+          color: var(--dark-gray);
+        }
+
+        &:focus {
+          outline: none;
+          border: solid 1px var(--green);
+        }
+      }
+
+      button {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 50px;
         background-color: var(--green);
         color: var(--white);
         cursor: pointer;
+        font-size: 1.5rem;
 
         &:hover {
-            background-color: var(--dark-green);
-            color: var(--white);
+          color: var(--white);
+          background-color: var(--green);
         }
+      }
     }
 
-    .pantry {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        padding: 2rem 1rem;
-        height: 100%;
-        overflow: hidden;
-        overflow-y: auto;
-
-        .pantry_header {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            color: var(--black);
-
-            i {
-                color: var(--green);
-            }
-
-            h2 {
-                margin: 0;
-                font-size: 1rem;
-            }
-        }
-
-        .pantry_controls {
-            display: flex;
-            flex-direction: column;
-            margin: 0.5rem 0;
-
-            .search-input {
-                width: auto;
-                padding: 1.2rem;
-                border: none;
-                border-radius: 20px;
-                background-color: var(--gray);
-                font-size: 1rem;
-                border: solid 1px transparent;
-                margin: 1rem 0;
-
-                &::placeholder {
-                    color: var(--dark-gray);
-                }
-
-                &:focus {
-                    outline: none;
-                    border: solid 1px var(--green);
-                }
-            }
-        }
-
-        .room_filters {
-            display: flex;
-            gap: 0.5rem;
-            width: 100%;
-            overflow: hidden;
-            overflow-x: auto;
-
-            button {
-                padding: 0.5rem 1rem;
-                border: none;
-                border-radius: 50px;
-                background-color: var(--light-green);
-                color: var(--green);
-                cursor: pointer;
-                font-size: 1rem;
-                font-weight: 600;
-
-                &:hover {
-                    color: var(--white);
-                    background-color: var(--green);
-                }
-            }
-
-            .active {
-                color: white;
-                background-color: var(--green);
-
-                &:hover {
-                    background-color: var(--green);
-                }
-            }
-        }
-
-        .product_list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
+    .shopping_list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
-
-    .shop_cart {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        padding: 2rem 1rem;
-
-        h2 {
-            margin: 0;
-            margin-bottom: 1rem;
-            color: var(--black);
-        }
-
-        .shop_cart_controls {
-            position: relative;
-            display: flex;
-            gap: 0.5rem;
-            margin: 2rem 0;
-
-            input {
-                flex: 1;
-                padding: 1.2rem;
-                border: none;
-                border-radius: 20px;
-                background-color: var(--gray);
-                font-size: 1rem;
-                border: solid 1px transparent;
-
-                &::placeholder {
-                    color: var(--dark-gray);
-                }
-
-                &:focus {
-                    outline: none;
-                    border: solid 1px var(--green);
-                }
-            }
-
-            button {
-                position: absolute;
-                right: 0.5rem;
-                top: 50%;
-                transform: translateY(-50%);
-                padding: 0.5rem 1rem;
-                border: none;
-                border-radius: 50px;
-                background-color: var(--green);
-                color: var(--white);
-                cursor: pointer;
-                font-size: 1.5rem;
-
-                &:hover {
-                    color: var(--white);
-                    background-color: var(--green);
-                }
-            }
-        }
-
-        .shopping_list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-    }
+  }
 }
 
-.room_filters::-webkit-scrollbar {
-    display: none;
+.room_filters::-webkit-scrollbar,
+.shop_cart_container::-webkit-scrollbar,
+.product_list::-webkit-scrollbar {
+  display: none;
 }
