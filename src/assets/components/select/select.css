@@ -1,28 +1,30 @@
-.select-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-
-  label {
-    font-size: 0.8rem;
-    color: #555;
-  }
-
-  select {
-    padding: 0.8rem;
-    border: solid 1px #ddd;
-    border-radius: 200px;
-    margin-bottom: 0.5rem;
+div {
+  .select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     width: 100%;
-    background-color: white;
 
-    &::placeholder {
-      color: #ddd;
+    label {
+      font-size: 0.8rem;
+      color: #555;
     }
-    &:focus {
-      outline: none;
-      border: solid 1px #555;
+
+    select {
+      padding: 0.8rem;
+      border: solid 1px #ddd;
+      border-radius: 200px;
+      margin-bottom: 0.5rem;
+      width: 100%;
+      background-color: white;
+
+      &::placeholder {
+        color: #ddd;
+      }
+      &:focus {
+        outline: none;
+        border: solid 1px #555;
+      }
     }
   }
 }

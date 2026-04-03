@@ -4,11 +4,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 420px;
-  height: calc(100vh - 3rem);
   margin: 0 auto;
   background-color: var(--light-gray);
   border-radius: 10px;
+  height: 100%;
 
   .newItem_btn {
     position: absolute;

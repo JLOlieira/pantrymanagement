@@ -1,6 +1,9 @@
 import "./product_edit_modal.css";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
+import Input from "../input/input";
+import Select from "../select/select";
+import Button from "../button/button";
 
 import { updateItem } from "../../../api";
 
@@ -39,87 +42,26 @@ export default function ProductEditModal({ onClose, product, onUpdated }) {
       <div className="product-edit-modal" onClick={(e) => e.stopPropagation()}>
         <h2>Editar item</h2>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="name">Nome:</label>
-          <input
+          <Input
+            label="Nome"
             type="text"
-            id="name"
             name="name"
-            value={formData.name}
+            value={formData.name || ""}
             onChange={handleChange}
             required
           />
-          <label htmlFor="quantity">Quantidade:</label>
-          <div className="quantity-input">
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              required
-            />
-            <button
-              type="button"
-              onClick={() =>
-                setFormData((prev) => ({
-                  ...prev,
-                  quantity: String(Math.max(0, Number(prev.quantity || 0) - 1)),
-                }))
-              }
-            >
-              -
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                setFormData((prev) => ({
-                  ...prev,
-                  quantity: String(Number(prev.quantity || 0) + 1),
-                }))
-              }
-            >
-              +
-            </button>
-          </div>
-          <label htmlFor="unit">Unidade:</label>
-          <select
-            name="unit"
-            id="unit"
-            value={formData.unit}
+          <Input
+            label="Quantidade"
+            type="number"
+            name="quantity"
+            value={formData.quantity || ""}
+            onChange={handleChange}
             required
-            onChange={handleChange}
-          >
-            <option value="">Selecione unidade</option>
-            <option value="unidades">Unidades</option>
-            <option value="litros">Litros</option>
-            <option value="quilogramas">Quilogramas</option>
-          </select>
-          <label htmlFor="category">Categoria:</label>
-          <select
-            name="category"
-            id="category"
-            value={formData.category}
-            onChange={handleChange}
-          >
-            <option value="">Selecione categoria</option>
-            <option value="Laticínios">Laticínios</option>
-            <option value="Padaria">Padaria</option>
-            <option value="Hortifruti">Hortifruti</option>
-            <option value="Carnes">Carnes</option>
-            <option value="Despensa">Despensa</option>
-          </select>
-          <label htmlFor="room">Local:</label>
-          <select
-            name="room"
-            id="room"
-            value={formData.room}
-            onChange={handleChange}
-          >
-            <option value="">Selecione local</option>
-            <option value="Geladeira">Geladeira</option>
-            <option value="Freezer">Freezer</option>
-            <option value="Despensa">Despensa</option>
-          </select>
+          />
+          <Select label="Unidade" options={['Unidade', 'Litros', 'kg']} name="unit" value={formData.unit} onChange={handleChange}></Select>
+          <Select label="Categoria" options={['Bebidas', 'Laticínios', 'Enlatados']} name="category" value={formData.category} onChange={handleChange}></Select>
+          
+          <Select label="Local" options={['Sala de estar', 'Sala de estar 2', 'Sala de estar 3', 'Sala de estar 4', 'Sala de estar 5', 'Sala de estar 6', 'Sala de estar 7', 'Sala de estar 8', 'Sala de estar 9']} name="room" value={formData.room} onChange={handleChange}></Select>
           <button type="submit">Salvar alterações</button>
           <button type="button" onClick={onClose}>
             Cancelar
