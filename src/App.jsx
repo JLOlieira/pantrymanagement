@@ -6,6 +6,8 @@ import ShopCart from "./assets/pages/shop-cart/shop-cart";
 import Header from "./assets/components/header/header";
 import Footer from "./assets/components/footer/footer";
 
+import { rooms } from "./data.json";
+
 import { getItems, addItem } from "./api";
 
 function App() {
@@ -84,27 +86,19 @@ function App() {
                 Todos
               </button>
             </li>
-            <li>
-              <button
-                value="Geladeira"
-                onClick={() => handleTabClick("Geladeira")}
-              >
-                Geladeira
-              </button>
-            </li>
-            <li>
-              <button value="Freezer" onClick={() => handleTabClick("Freezer")}>
-                Freezer
-              </button>
-            </li>
-            <li>
-              <button
-                value="Despensa"
-                onClick={() => handleTabClick("Despensa")}
-              >
-                Despensa
-              </button>
-            </li>
+            {rooms
+              .filter((room) => room.value != "Local")
+              .map((index) => (
+                <li key={index}>
+                  <button
+                    value={index.value}
+                    className=""
+                    onClick={() => handleTabClick(index.value)}
+                  >
+                    {index.label}
+                  </button>
+                </li>
+              ))}
           </ul>
         </div>
         <button className="newItem_btn" onClick={() => setShowModal(true)}>
@@ -113,8 +107,11 @@ function App() {
 
         <ul className="product_list">
           {pantryItems
-            // filtra os itens com quantidade > 0
-            .filter((item) => item.quantity > 0)
+            .filter((item) =>
+              _activeTab === "all"
+                ? item.quantity > 0
+                : item.room === _activeTab && item.quantity > 0,
+            )
             .map((item, index) => (
               <Product
                 id={item.id || item._id}

@@ -5,6 +5,8 @@ import Input from "../input/input";
 import Select from "../select/select";
 import Button from "../button/button";
 
+import { categories, rooms } from "../../../data.json";
+
 import { addItem } from "../../../api";
 
 export default function ItemModal({ onClose, onAdded }) {
@@ -41,6 +43,19 @@ export default function ItemModal({ onClose, onAdded }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const formatOption = (item) => {
+    if (typeof item === "string") {
+      return { label: item, value: item };
+    }
+    return {
+      label: item.label ?? item.laber ?? item.value ?? "",
+      value: item.value ?? item.label ?? item.laber ?? "",
+    };
+  };
+
+  const categoryOptions = categories.map(formatOption);
+  const roomOptions = rooms.map(formatOption);
+
   return (
     <div className="item-modal">
       <h2>Adicionar item</h2>
@@ -67,7 +82,7 @@ export default function ItemModal({ onClose, onAdded }) {
           options={[
             { label: "Unidade", value: "unit" },
             { label: "Litros", value: "litros" },
-            { label: "kg", value: "quilogramas" },
+            { label: "kg", value: "kg" },
           ]}
           value={formData.unit}
           onChange={handleChange}
@@ -75,26 +90,14 @@ export default function ItemModal({ onClose, onAdded }) {
         <Select
           label="Categoria"
           name="category"
-          options={[
-            { label: "Categoria", value: "Categoria" },
-            { label: "Laticínios", value: "Laticínios" },
-            { label: "Padaria", value: "Padaria" },
-            { label: "Hortifruti", value: "Hortifruti" },
-            { label: "Carnes", value: "Carnes" },
-            { label: "Despensa", value: "Despensa" },
-          ]}
+          options={categoryOptions}
           value={formData.category}
           onChange={handleChange}
         />
         <Select
           label="Local"
           name="room"
-          options={[
-            { label: "Local", value: "room" },
-            { label: "Geladeira", value: "Geladeira" },
-            { label: "Freezer", value: "Freezer" },
-            { label: "Despensa", value: "Despensa" },
-          ]}
+          options={roomOptions}
           value={formData.room}
           onChange={handleChange}
         />

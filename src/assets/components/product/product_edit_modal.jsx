@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import Input from "../input/input";
 import Select from "../select/select";
-import Button from "../button/button";
+
+import { categories, rooms } from "../../../data.json";
 
 import { updateItem } from "../../../api";
 
@@ -16,6 +17,19 @@ export default function ProductEditModal({ onClose, product, onUpdated }) {
     category: product.category || "",
     room: product.room || "",
   });
+
+  const formatOption = (item) => {
+    if (typeof item === "string") {
+      return { label: item, value: item };
+    }
+    return {
+      label: item.label ?? item.laber ?? item.value ?? "",
+      value: item.value ?? item.label ?? item.laber ?? "",
+    };
+  };
+
+  const categoryOptions = categories.map(formatOption);
+  const roomOptions = rooms.map(formatOption);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,10 +72,28 @@ export default function ProductEditModal({ onClose, product, onUpdated }) {
             onChange={handleChange}
             required
           />
-          <Select label="Unidade" options={['Unidade', 'Litros', 'kg']} name="unit" value={formData.unit} onChange={handleChange}></Select>
-          <Select label="Categoria" options={['Bebidas', 'Laticínios', 'Enlatados']} name="category" value={formData.category} onChange={handleChange}></Select>
-          
-          <Select label="Local" options={['Sala de estar', 'Sala de estar 2', 'Sala de estar 3', 'Sala de estar 4', 'Sala de estar 5', 'Sala de estar 6', 'Sala de estar 7', 'Sala de estar 8', 'Sala de estar 9']} name="room" value={formData.room} onChange={handleChange}></Select>
+          <Select
+            label="Unidade"
+            options={["Unidade", "Litros", "kg"]}
+            name="unit"
+            value={formData.unit}
+            onChange={handleChange}
+          ></Select>
+          <Select
+            label="Categoria"
+            options={categoryOptions}
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+          ></Select>
+
+          <Select
+            label="Local"
+            options={roomOptions}
+            name="room"
+            value={formData.room}
+            onChange={handleChange}
+          ></Select>
           <button type="submit">Salvar alterações</button>
           <button type="button" onClick={onClose}>
             Cancelar

@@ -5,7 +5,7 @@
     position: relative;
     width: auto;
     height: auto;
-    padding: 1rem;
+    padding: 0.8rem;
     border-radius: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
@@ -23,7 +23,7 @@
 
             .name-txt {
                 color: #555;
-                font-size: 1.5rem;
+                font-size: 1.2rem;
                 font-weight: bold;
                 text-transform: initial;
             }
@@ -32,6 +32,7 @@
                 background-color: #eaeaea;
                 padding: 0.2rem 0.4rem;
                 border-radius: 10px;
+                font-size: 0.8rem;
                 text-transform: uppercase;
                 font-weight: bold;
             }

@@ -1,0 +1,17 @@
+{
+    "categories": [
+        { "label": "Categoria", "value": "Categoria"},
+        { "label": "Laticínios", "value": "Laticínios"},
+        { "label": "Cereais", "value": "Cereais"},
+        { "label": "Limpeza", "value": "Limpeza"},
+        { "label": "Despensa", "value": "Despensa"}
+        
+    ],
+    "rooms": [
+        { "label": "Local", "value": "Local"},
+        { "label": "Banheiro", "value": "Banheiro"},
+        { "label": "Despensa", "value": "Despensa"},
+        { "label": "Geladeira", "value": "Geladeira"},
+        { "label": "Quarto", "value": "Quarto"}
+    ]
+}

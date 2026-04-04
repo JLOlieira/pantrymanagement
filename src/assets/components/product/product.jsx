@@ -19,9 +19,7 @@ export default function Product({ name, quantity, unit, category, room, id }) {
     } catch (error) {
       console.error("Erro ao excluir item:", error);
       console.log(id);
-      alert(
-        "Erro no servidor ao excluir item. Veja o console para detalhes.",
-      );
+      alert("Erro no servidor ao excluir item. Veja o console para detalhes.");
     }
     window.location.reload();
   };
@@ -35,7 +33,7 @@ export default function Product({ name, quantity, unit, category, room, id }) {
         <div>
           <p className="category-txt">{category}</p>
           <p>
-            Quantidade: {quantity} {unit}
+            {quantity} {unit}
           </p>
         </div>
       </div>

@@ -35,18 +35,21 @@
       font-size: 0.8rem;
       color: #555;
     }
+
     input {
       padding: 0.5rem;
       border: solid 1px #ddd;
       border-radius: 5px;
       margin-bottom: 0.5rem;
     }
+
     select {
       padding: 0.5rem;
       border: solid 1px #ddd;
       border-radius: 5px;
       margin-bottom: 0.5rem;
     }
+
     button[type="submit"] {
       padding: 0.5rem;
       border: none;
@@ -60,6 +63,7 @@
         background-color: #218838;
       }
     }
+
     button[type="button"] {
       padding: 0.5rem;
       border: none;
@@ -72,6 +76,7 @@
         background-color: #f6f6f6;
       }
     }
+
     .quantity-input {
       display: flex;
       align-items: flex-start;
@@ -80,6 +85,7 @@
       input {
         width: 100%;
       }
+
       button {
         display: flex;
         align-items: center;
