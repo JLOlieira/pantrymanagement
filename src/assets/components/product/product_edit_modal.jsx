@@ -5,7 +5,6 @@ import Input from "../input/input";
 import Select from "../select/select";
 
 import { categories, rooms } from "../../../data.json";
-
 import { updateItem } from "../../../api";
 
 export default function ProductEditModal({ onClose, product, onUpdated }) {

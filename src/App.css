@@ -6,8 +6,7 @@
   flex-direction: column;
   margin: 0 auto;
   background-color: var(--light-gray);
-  border-radius: 10px;
-  height: 100vh;
+  height: 100%;
 
   .newItem_btn {
     position: absolute;

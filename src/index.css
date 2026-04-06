@@ -1,17 +1,19 @@
-body{
+body {
     margin: 0;
 }
-#root{
-    height: 100vh;
+
+#root {
+    height: 100dvh;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Poppins, sans-serif;
 
-    ul{
+    ul {
         padding: 0;
     }
-    li{
+
+    li {
         list-style: none;
     }
 }

@@ -1,5 +1,4 @@
 import "./header.css";
-import React from "react";
 import { useState } from "react";
 import Button from "../button/button";
 
@@ -16,7 +15,10 @@ export default function Header() {
         <button className="menu-btn" onClick={toggleMenu}>
           <i class="fa-solid fa-bars"></i>
         </button>
-        <h1>Minha Despensa</h1>
+        <div>
+          <h1>Minha Despensa</h1>
+          <p>Grupo</p>
+        </div>
       </div>
       {isMenuOpen && (
         <div className="account-settings">
