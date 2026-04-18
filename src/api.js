@@ -46,3 +46,50 @@ export const deleteItem = async (item) => {
     throw error;
   }
 };
+
+export const login = async (email, password) => {
+  try {
+    const response = await axios.post(`${apiUrl}/auth/login`, {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao logar:", error);
+    throw error;
+  }
+};
+
+export const register = async (email, password, name) => {
+  try {
+    const response = await axios.post(`${apiUrl}/auth/register`, {
+      email,
+      password,
+      name,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao registrar:", error);
+    throw error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    const response = await axios.post(`${apiUrl}/auth/logout`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao logar:", error);
+    throw error;
+  }
+};
+
+export const getUserGroups = async (id) => {
+  try {
+    const response = await axios.get(`${apiUrl}/groups/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar grupos:", error);
+    throw error;
+  }
+};

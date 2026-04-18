@@ -43,4 +43,20 @@ button {
     }
 
   }
+  &.login-btn {
+    background-color: var(--gray);
+    color: var(--dark-gray);
+    border: none;
+    padding: 0.8rem 1.5rem;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+
+    &.active{
+      background-color: var(--green);
+      color: var(--white);
+      cursor: pointer;
+    }
+  }
 }

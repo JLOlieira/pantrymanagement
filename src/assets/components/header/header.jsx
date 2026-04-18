@@ -1,9 +1,25 @@
 import "./header.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "../button/button";
+import { getUserGroups } from "../../../api";
+
+import { useContext } from "react";
+import { AuthContext } from "../../../context/useAuth";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+
+  const [groups , setGroups] = useState([]);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      const groups = await getUserGroups(user.id);
+      setGroups(groups);
+    };
+    fetchGroups();
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -25,7 +41,7 @@ export default function Header() {
           <div className="user-infos">
             <div>
               <img src="/lukas.png" alt="User" />
-              <h2>Lukas Oliveira</h2>
+              <h2>{user.name}</h2>
             </div>
             <button className="close-menu" onClick={toggleMenu}>
               <i class="fa-solid fa-angle-left"></i>
@@ -40,26 +56,27 @@ export default function Header() {
               <i class="fa-solid fa-plus"></i>
             </button>
           </div>
-          <ul>
-            <li>
-              <p>Grupo Oliveira</p>
-              <div>
-                <Button className="edit-btn" icon="fa-edit" />
-                <Button className="delete-btn" icon="fa-trash" />
-              </div>
-            </li>
-            <li>
-              <p>Família</p>
-              <div>
-                <button>
-                  <i class="fa-solid fa-edit"></i>
-                </button>
-                <button>
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            </li>
-          </ul>
+          <div className="list-group">
+            <ul>
+              {groups.map((group) => (
+                <li key={group.id}>
+                  <p>{group.name}</p>
+                  <div>
+                    <button>
+                      <i class="fa-solid fa-edit"></i>
+                    </button>
+                    <button>
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </li>
+              ))}
+              
+            </ul>
+            <button className="logout-btn" onClick={logout}>
+              Sair
+            </button>
+          </div>
         </div>
       )}
       <div className="user-menu">
