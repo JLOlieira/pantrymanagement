@@ -11,4 +11,6 @@
     --red: #dc3545;
     --light-red: #fcf3f4;
     --dark-red: #c82333;
+
+    --overlay: rgba(0, 0, 0, 0.35);
 }

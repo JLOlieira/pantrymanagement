@@ -5,23 +5,30 @@ import ProductEditModal from "./product_edit_modal";
 
 import { deleteItem } from "../../../api";
 
-export default function Product({ name, quantity, unit, category, room, id }) {
+export default function Product({
+  name,
+  quantity,
+  unit,
+  category,
+  room,
+  id,
+  onRemove,
+}) {
   const [showEditModal, setShowEditModal] = useState(false);
 
   const handleEdit = () => {
     setShowEditModal(true);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault();
     try {
       const deleted = await deleteItem({ id });
-      console.log("Item excluído com sucesso:", deleted);
     } catch (error) {
       console.error("Erro ao excluir item:", error);
-      console.log(id);
       alert("Erro no servidor ao excluir item. Veja o console para detalhes.");
     }
-    window.location.reload();
+    onRemove();
   };
 
   return (

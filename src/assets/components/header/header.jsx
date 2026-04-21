@@ -1,7 +1,13 @@
 import "./header.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Button from "../button/button";
-import { getUserGroups } from "../../../api";
+import Input from "../input/input";
+import {
+  getUserGroups,
+  createGroup,
+  deleteGroup,
+  getItems,
+} from "../../../api";
 
 import { useContext } from "react";
 import { AuthContext } from "../../../context/useAuth";
@@ -11,7 +17,12 @@ export default function Header() {
   const { logout } = useContext(AuthContext);
   const { user } = useContext(AuthContext);
 
-  const [groups , setGroups] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(
+    JSON.parse(localStorage.getItem("selectedGroup")) || null,
+  );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [newGroupName, setNewGroupName] = useState("");
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -25,6 +36,37 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const toggleAddGroupModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const closeModalOnOverlayClick = (e) => {
+    if (e.target.classList.contains("modal-overlay")) {
+      setModalOpen(false);
+    }
+  };
+
+  const handleCreateGroup = async (e) => {
+    e.preventDefault();
+    await createGroup(newGroupName, user.id);
+    setNewGroupName("");
+    setModalOpen(false);
+    const updatedGroups = await getUserGroups(user.id);
+    setGroups(updatedGroups);
+  };
+  const handleDeleteGroup = async (groupId) => {
+    await deleteGroup(groupId);
+    const updatedGroups = await getUserGroups(user.id);
+    setGroups(updatedGroups);
+  };
+
+  const handleSelectGroup = async (group) => {
+    setSelectedGroup(group);
+    setIsMenuOpen(false);
+    localStorage.setItem("selectedGroup", JSON.stringify(group));
+    window.location.reload(); // Recarrega a página para atualizar os itens com base no grupo selecionado
+  };
+
   return (
     <header className="header">
       <div className="settings">
@@ -33,14 +75,14 @@ export default function Header() {
         </button>
         <div>
           <h1>Minha Despensa</h1>
-          <p>Grupo</p>
+          <p>{selectedGroup ? selectedGroup.name : "Selecione um grupo"}</p>
         </div>
       </div>
       {isMenuOpen && (
         <div className="account-settings">
           <div className="user-infos">
             <div>
-              <img src="/lukas.png" alt="User" />
+              <img src="/icon-7797704_640.png" alt="User" />
               <h2>{user.name}</h2>
             </div>
             <button className="close-menu" onClick={toggleMenu}>
@@ -52,26 +94,30 @@ export default function Header() {
               <i class="fa-solid fa-users"></i>
               <h3>Meus Grupos</h3>
             </div>
-            <button className="new-group">
+            <button className="new-group" onClick={toggleAddGroupModal}>
               <i class="fa-solid fa-plus"></i>
             </button>
           </div>
           <div className="list-group">
             <ul>
               {groups.map((group) => (
-                <li key={group.id}>
+                <li
+                  key={group.id}
+                  onClick={() => handleSelectGroup(group)}
+                  className={
+                    selectedGroup && selectedGroup._id === group._id
+                      ? "selected"
+                      : ""
+                  }
+                >
                   <p>{group.name}</p>
                   <div>
-                    <button>
-                      <i class="fa-solid fa-edit"></i>
-                    </button>
-                    <button>
+                    <button onClick={() => handleDeleteGroup(group.id)}>
                       <i class="fa-solid fa-trash"></i>
                     </button>
                   </div>
                 </li>
               ))}
-              
             </ul>
             <button className="logout-btn" onClick={logout}>
               Sair
@@ -79,11 +125,25 @@ export default function Header() {
           </div>
         </div>
       )}
-      <div className="user-menu">
-        <button className="userMenu-btn">
-          <img src="/lukas.png" alt="User" />
-        </button>
-      </div>
+
+      {modalOpen && (
+        <div className="modal-overlay" onClick={closeModalOnOverlayClick}>
+          <div className="modal-container">
+            <h3>Novo grupo</h3>
+            <Input
+              type="text"
+              placeholder="Nome"
+              value={newGroupName}
+              onChange={(e) => setNewGroupName(e.target.value)}
+            />
+            <Button
+              className="default"
+              label="Salvar"
+              onClick={handleCreateGroup}
+            />
+          </div>
+        </div>
+      )}
     </header>
   );
 }

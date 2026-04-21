@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-};
+  };
 
   const register = async (email, password, name) => {
     setIsLoading(true);
@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.user);
       setIsAuthenticated(true);
       localStorage.setItem("user", JSON.stringify(response.user));
+      localStorage.setItem("token", response.token);
       return response.user;
     } catch (err) {
       setError(err);
@@ -62,6 +63,8 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("selectedGroup");
+    localStorage.removeItem("pantryItems");
   };
 
   const value = {
@@ -74,7 +77,5 @@ export const AuthProvider = ({ children }) => {
     logout,
   };
 
-  return (
-    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

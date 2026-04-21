@@ -12,6 +12,16 @@ button {
   font-size: 1rem;
   color: var(--black);
 
+  &.default {
+    background-color: var(--green);
+    color: var(--white);
+    width: 100%;
+
+    &:hover {
+      background-color: var(--dark-green);
+    }
+  }
+
   &:hover {
     background-color: var(--light-gray);
   }
@@ -43,6 +53,7 @@ button {
     }
 
   }
+
   &.login-btn {
     background-color: var(--gray);
     color: var(--dark-gray);
@@ -53,7 +64,7 @@ button {
       cursor: not-allowed;
     }
 
-    &.active{
+    &.active {
       background-color: var(--green);
       color: var(--white);
       cursor: pointer;

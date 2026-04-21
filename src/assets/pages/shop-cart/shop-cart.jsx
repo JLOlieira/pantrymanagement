@@ -61,26 +61,35 @@ export default function ShopCart() {
     }
   };
 
+  const selectedGroup = JSON.parse(localStorage.getItem("selectedGroup"));
+
   return (
     // Exibe itens com quantidade 0
     <div className="shop_cart_container">
       <ul className="shop_cart_list">
-        {shopCartItems.map((item, index) => (
-          <li key={item.id || index} className="shop_cart_item">
-            <h3>{item.name || item.nome}</h3>
-            <div className="shop_cart_item_controls">
-              <button className="addToPantry" onClick={() => handleEdit(item)}>
-                <i className="fa-solid fa-box-archive"></i>
-              </button>
-              <button
-                className="deleteFromShopCart"
-                onClick={() => handleDeleteFromShopCart(item)}
-              >
-                <i className="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </li>
-        ))}
+        {shopCartItems
+          .filter((item) => {
+            return item.groupId === selectedGroup?._id;
+          })
+          .map((item, index) => (
+            <li key={item.id || index} className="shop_cart_item">
+              <h3>{item.name || item.nome}</h3>
+              <div className="shop_cart_item_controls">
+                <button
+                  className="addToPantry"
+                  onClick={() => handleEdit(item)}
+                >
+                  <i className="fa-solid fa-box-archive"></i>
+                </button>
+                <button
+                  className="deleteFromShopCart"
+                  onClick={() => handleDeleteFromShopCart(item)}
+                >
+                  <i className="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </li>
+          ))}
       </ul>
       {showEditModal && (
         <ProductEditModal

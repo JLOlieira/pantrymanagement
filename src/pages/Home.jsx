@@ -6,7 +6,6 @@ import Header from "../assets/components/header/header";
 import Footer from "../assets/components/footer/footer";
 
 import { rooms } from "../data.json";
-
 import { getItems, addItem } from "../api";
 
 export default function Home() {
@@ -14,15 +13,27 @@ export default function Home() {
   const [_activeTab, _setActiveTab] = useState("all");
   const [_activeSection, _setActiveSection] = useState("pantry");
   const [pantryItems, setPantryItems] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(null);
 
   useEffect(() => {
     const fetchItems = async () => {
       const items = await getItems();
-      // Garantir que é um array
       setPantryItems(Array.isArray(items) ? items : []);
     };
     fetchItems();
+    const group = JSON.parse(localStorage.getItem("selectedGroup"));
+    setSelectedGroup(group);
   }, []);
+
+  const fetchItems = async () => {
+    try {
+      const items = await getItems();
+      setPantryItems(Array.isArray(items) ? items : []);
+    } catch (error) {
+      console.error("Erro ao buscar itens:", error);
+      alert("Erro ao buscar itens. Veja o console para detalhes.");
+    }
+  };
 
   const handleTabClick = (tab) => {
     _setActiveTab(tab);
@@ -44,10 +55,12 @@ export default function Home() {
       unit: "",
       category: "",
       room: "",
+      groupId: selectedGroup?._id,
     };
 
     try {
-      const createdItem = await addItem(newItem);
+      // cria o item e adiciona a lista de itens do grupo selecionado
+      const createdItem = await addItem(newItem, { group: selectedGroup?._id });
       setPantryItems((prev) => [...prev, createdItem]);
       document.querySelector(".shop_cart_controls input").value = "";
       // Atualizar a lista de compras se estiver visível
@@ -65,10 +78,6 @@ export default function Home() {
     <div className="App">
       <Header />
       <section className="pantry" value="pantry">
-        <div className="pantry_header">
-          <i className="fa-solid fa-user-group"></i>
-          <h2>Grupo Oliveira</h2>
-        </div>
         <div className="pantry_controls">
           <input
             className="search-input"
@@ -100,35 +109,32 @@ export default function Home() {
               ))}
           </ul>
         </div>
+
         <button className="newItem_btn" onClick={() => setShowModal(true)}>
           +
         </button>
 
         <ul className="product_list">
-          {pantryItems
-            .filter((item) =>
-              _activeTab === "all"
-                ? item.quantity > 0
-                : item.room === _activeTab && item.quantity > 0,
-            )
-            .map((item, index) => (
-              <Product
-                id={item.id || item._id}
-                key={index}
-                name={item.name || item.nome}
-                quantity={item.quantity || item.quantidade}
-                unit={item.unit || item.unidade}
-                category={item.category || item.categoria}
-                room={item.room || item.location}
-                onRemove={() =>
-                  setPantryItems((prev) =>
-                    prev.filter(
-                      (i) => (i.id || i._id) !== (item.id || item._id),
-                    ),
-                  )
-                }
-              />
-            ))}
+          {selectedGroup &&
+            pantryItems
+              .filter((item) => item.groupId === selectedGroup?._id)
+              .filter((item) =>
+                _activeTab === "all"
+                  ? item.quantity > 0
+                  : item.room === _activeTab && item.quantity > 0,
+              )
+              .map((item, index) => (
+                <Product
+                  id={item.id || item._id}
+                  key={index}
+                  name={item.name || item.nome}
+                  quantity={item.quantity || item.quantidade}
+                  unit={item.unit || item.unidade}
+                  category={item.category || item.categoria}
+                  room={item.room || item.location}
+                  onRemove={fetchItems}
+                />
+              ))}
         </ul>
       </section>
       <section
@@ -149,6 +155,7 @@ export default function Home() {
         <ItemModal
           onClose={() => setShowModal(false)}
           onAdded={(newItem) => setPantryItems((prev) => [...prev, newItem])}
+          group={selectedGroup}
         />
       )}
       <Footer />

@@ -9,7 +9,7 @@ import { categories, rooms } from "../../../data.json";
 
 import { addItem } from "../../../api";
 
-export default function ItemModal({ onClose, onAdded }) {
+export default function ItemModal({ onClose, onAdded, group }) {
   const [formData, setFormData] = useState({
     name: "",
     quantity: "",
@@ -17,11 +17,12 @@ export default function ItemModal({ onClose, onAdded }) {
     category: "",
     room: "",
     id: "",
+    groupId: group?._id,
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const saved = await addItem(formData);
+      const saved = await addItem(formData, { group: group?._id });
       console.log("Item adicionado com sucesso:", saved);
       if (onAdded) onAdded(saved);
       // Se o item foi adicionado com quantidade 0, atualizar lista de compras

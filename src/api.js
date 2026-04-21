@@ -12,9 +12,9 @@ export const getItems = async () => {
   }
 };
 
-export const addItem = async (item) => {
+export const addItem = async (item, { group }) => {
   try {
-    const response = await axios.post(`${apiUrl}/products`, item);
+    const response = await axios.post(`${apiUrl}/products`, { ...item, group });
     return response.data;
   } catch (error) {
     console.error("Erro ao adicionar item:", error);
@@ -90,6 +90,29 @@ export const getUserGroups = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar grupos:", error);
+    throw error;
+  }
+};
+
+export const createGroup = async (name, userId) => {
+  try {
+    const response = await axios.post(`${apiUrl}/groups`, {
+      name,
+      userId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao criar grupo:", error);
+    throw error;
+  }
+};
+
+export const deleteGroup = async (groupId) => {
+  try {
+    const response = await axios.delete(`${apiUrl}/groups/${groupId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao excluir grupo:", error);
     throw error;
   }
 };
