@@ -73,7 +73,7 @@ O Pantry Management App permite que usuários:
 
 ## Contato
 
-Desenvolvido por Lukas Oliveira. Para mais informações, entre em contato via [LinkedIn](https://www.linkedin.com/in/lukas-oliveira-a92b83146/) ou [e-mail] (lukas.oliveira18@hotmail.com).
+Desenvolvido por Lukas Oliveira. Para mais informações, entre em contato via [LinkedIn](https://www.linkedin.com/in/lukas-oliveira-a92b83146/) ou [e-mail](lukas.oliveira18@hotmail.com).
 
 ---
 
